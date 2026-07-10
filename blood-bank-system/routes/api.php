@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BloodBagController;
+use App\Http\Controllers\RiskController;
 
 Route::post(
     '/register',
@@ -29,6 +30,9 @@ Route::middleware('auth:sanctum')
             '/logout',
             [AuthController::class, 'logout']
         );
+
+
+    
     });
 
 
@@ -62,5 +66,12 @@ Route::get(
     [BloodBagController::class, 'show']
 );
 
+Route::get(
+    'blood_bags/high-temperature',
+    [BloodBagController::class, 'highTemperature']
+);
+
+
+Route::get('risk_analysis/refrigerator/{id}', [RiskController::class, 'refrigeratorRisk']);
 
 });

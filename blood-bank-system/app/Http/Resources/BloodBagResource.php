@@ -15,7 +15,7 @@ class BloodBagResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-             'id' => $this->id,
+            'id' => $this->id,
             'bag_number' => $this->bag_number,
             'blood_group' => $this->blood_group,
             'donor_name' => $this->donor_name,
@@ -23,8 +23,10 @@ class BloodBagResource extends JsonResource
             'expiry_date' => $this->expiry_date,
             'quantity_ml' => $this->quantity_ml,
             'status' => $this->status,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'refrigerator' => [
+                'id' => $this->refrigerator?->id,
+                'name' => $this->refrigerator?->name,
+            ],
         ];
     }
 }

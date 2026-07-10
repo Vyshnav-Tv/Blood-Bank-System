@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Requests\BloodBagRequest;
 use App\Http\Resources\BloodBagResource;
 use App\Models\BloodBag;
+use App\Models\BloodBank;
 
 class BloodBagService
 {
@@ -31,7 +32,8 @@ class BloodBagService
     }
 
 
-    public function update(BloodBagRequest $request,$id){
+    public function update(BloodBagRequest $request, $id)
+    {
 
         $validatedData = $request->validated();
 
@@ -54,7 +56,8 @@ class BloodBagService
     }
 
 
-    public function destroy($id){
+    public function destroy($id)
+    {
 
         $bloodBag = BloodBag::find($id);
 
@@ -75,7 +78,8 @@ class BloodBagService
     }
 
 
-    public function show($id){
+    public function show($id)
+    {
 
         $bloodBag = BloodBag::find($id);
 
@@ -93,13 +97,34 @@ class BloodBagService
         ]);
     }
 
-    public function index(){
+    public function index()
+    {
 
-        $bloodBags = BloodBag::all();
+        $bloodBags = BloodBag::with(['refrigerator'])->get();
 
         return response()->json([
             'success' => true,
             'data' => BloodBagResource::collection($bloodBags)
         ]);
+    }
+
+
+    public function highTemperature()
+    {
+        return BloodBank::whereHas(
+            'refrigerators.temperatureLogs',
+            function ($query) {
+
+                $query->where(
+                    'temperature',
+                    '>',
+                    8
+                );
+            }
+        )
+            ->with([
+                'refrigerators.temperatureLogs'
+            ])
+            ->get();
     }
 }

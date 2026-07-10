@@ -42,4 +42,9 @@ class BloodBagController extends Controller
     {
         return $this->bloodBagService->show($id);
     }
+
+    public function highTemperature(){
+        
+        return $this->bloodBagService->highTemperature();
+    }
 }
