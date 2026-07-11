@@ -54,8 +54,8 @@ class BloodBagRequest extends FormRequest
 
             'quantity_ml' => [
                 'sometimes',
-                'integer',
-                'min:100',
+                'numeric',
+                'min:0',
                 'max:500',
             ],
 

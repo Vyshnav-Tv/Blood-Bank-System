@@ -12,23 +12,30 @@ class BloodBagService
 
     public function store(BloodBagRequest $request)
     {
-        $validatedData = $request->validated();
+        try {
+            $validatedData = $request->validated();
 
-        $data = BloodBag::create($validatedData);
+            $data = BloodBag::create($validatedData);
 
-        if (empty($data)) {
+            if (empty($data)) {
+
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Failed to create blood bag',
+                ]);
+            }
 
             return response()->json([
+                'success' => true,
+                'message' => 'Blood bag created successfully',
+                'data' => $data
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
                 'success' => false,
-                'message' => 'Failed to create blood bag',
+                'message' => 'An error occurred while creating the blood bag: ' . $e->getMessage(),
             ]);
         }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Blood bag created successfully',
-            'data' => $data
-        ]);
     }
 
 
